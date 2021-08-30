@@ -1,5 +1,12 @@
 :root,
 html {
+--black: #000000;
+--backgroundColor: #FFE5B4;
+  --primaryColor: #FFC0B4;
+  --secondaryColor: #F4FFB4;
+
+
   margin: 0;
   padding: 0;
+  font-family: 'Roboto Mono', monospace;
 }
