@@ -9,9 +9,12 @@
 
     function handleLaguageChange(e) {
         localStorage.setItem('userLaguage', e.target.value);
-        userLaguage = localStorage.getItem('userLaguage');
+        userLaguage = e.target.value
         openSettings = !openSettings;
     }
+
+    $: console.log(userLaguage)
+    
 
     // 🗣🗣🗣🗣🗣 all the laguage switching stuff
     let UIlang =
@@ -77,19 +80,25 @@
     };
     // ❌❌❌❌❌
     async function removeItem(id) {
+     
         const response = await axios.delete('/api/items/' + id);
+        response.data && console.log(response.data);
         if (response.data.id === id) {
             items = items.filter((t) => t._id !== id);
+        } if(response.data.id === 'all') {
+            items = [];
         }
+      
     }
+
+
 </script>
 
-<div>
+<div on:click={() => (openSettings = !openSettings)} class={!openSettings && 'fullBackground'} />
     <div class="app">
-        <div on:click={() => (openSettings = !openSettings)} class={!openSettings && 'fullBackground'} />
-        <aside class={`${openSettings && 'goneSettings'} card settings`}>
+        
+        <aside class={`${openSettings && 'goneSettings'}  settings`}>
             <div class="language-selector">
-                <h2>Välj språk</h2>
                 <select on:change={handleLaguageChange} value={userLaguage}>
                     <option value="swe">Svenska ⇾ Português</option>
                     <option value="por">Português ⇾ Svenska</option>
@@ -98,8 +107,10 @@
         </aside>
 
         <section class="card">
+          <nav class="nav">
+          <h3 class="h3">{UIlang.lang.abbreviated}</h3>
             <div class="settingIcon" on:click={() => (openSettings = !openSettings)}><SettingsIcon /></div>
-
+          </nav>
             <h1 class="title">
                 {UIlang.lista.source}/{UIlang.lista.target}
             </h1>
@@ -122,33 +133,57 @@
                 {/each}
             </div>
         </section>
+        <div class="newList" on:click={() => removeItem('all')}>NEW LIST</div>
     </div>
-</div>
+    
+
 
 <style>
+  .nav {
+    display: flex;
+    justify-content: space-between;
+align-items: center;
+padding: 10px 10px 0 10px;
+  }
+  .h3 {
+    color: var(--backgroundColor);
+  }
+    .app {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        
+    }
     .goneSettings {
         display: none;
     }
 
     .settingIcon {
-        position: relative;
-        top: 15px;
+        
+        
         left: 100%;
         width: 30px;
+        cursor: pointer;
+    }
+    .settingIcon:active {
+      transform: scale(0.98);
     }
     .settings {
+      background-color: var(--primaryColor);
+      border-radius: 40px 40px 60px 20px;
+        border: 6px solid var(--black);
+        padding: 20px;
         position: fixed;
         z-index: 10;
+        padding: 40px;
     }
     .fullBackground {
-        z-index: 1;
+        z-index: 5;
         position: fixed;
-        height: 100%;
-        width: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        width: 100vw;
+        height: 100vh;
+        backdrop-filter:  grayscale(1);
     }
     .title {
         text-align: center;
@@ -156,39 +191,50 @@
     }
     .card {
         background-color: var(--secondaryColor);
-        width: 300px;
+        width: 500px;
         height: fit-content;
         margin-top: 50px;
-        padding: 0 50px 50px 50px;
+        
         border-radius: 40px 40px 60px 20px;
         border: 6px solid var(--black);
-        box-shadow: 35px 35px 0px 4px var(--primaryColor), 35px 35px 0px 10px var(--black);
+        box-shadow: 35px 35px 0px 4px var(--primaryColor), 35px 35px 0px 10px var(--black), 35px 40px 10px 10px rgba(0, 0, 0, 0.1);
     }
+@media (max-width: 600px) {
+  .card {
+    width: 70vw;
+    box-shadow: 15px 15px 0px 4px var(--primaryColor);
+  }
+}
+@media (max-width: 400px) {
+  .card {
+    width: 87vw;
+    box-shadow: 5px 5px 0px 4px var(--primaryColor);
+  }
+}
+
     .lineThrough {
         text-decoration: line-through;
     }
-    .app {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        width: 100vw;
-        background-color: var(--backgroundColor);
-    }
+
 
     .rows {
+      padding: 0 50px 50px 50px;
         display: grid;
         grid-auto-rows: auto;
-        gap: 20px;
+        gap: 15px;
+    }
+    @media (max-width: 400px) {
+      .rows {
+        padding: 0 30px 30px 30px;
+      }
     }
 
     .inputWrapper {
         background-color: var(--backgroundColor);
-        height: 40px;
+        height: 20px;
         widows: 100%;
         display: flex;
-        padding: 20px 20px;
+        padding: 10px 20px;
     }
 
     .input {
@@ -197,7 +243,7 @@
         border: none;
 
         height: 100%;
-
+        min-height: 20px;
         width: 100%;
     }
 
@@ -209,6 +255,8 @@
         color: var(--black);
         font-family: 'Roboto Mono', monospace;
         border: none;
+        height: 20px;
+        cursor: pointer;
     }
 
     .btn:hover {
@@ -224,11 +272,12 @@
 
     .item {
         background-color: var(--primaryColor);
-        height: 80px;
+        height: 50px;
 
         display: grid;
         grid-template-columns: repeat(5, 1fr);
         grid-template-rows: 1fr;
+        cursor: pointer;
     }
 
     .deleteBtn {
@@ -236,12 +285,31 @@
         grid-column: 6/7;
         grid-row: 1/2;
         padding: 5px;
+        cursor: pointer;
     }
 
     .text {
-        grid-column: 2/4;
+        grid-column: 2/7;
         grid-row: 1/2;
         align-self: center;
+    }
+
+    .newList {
+        position: fixed;
+        bottom: 0;
+        right: 0;
+      background-color: var(--primaryColor);
+      width: fit-content;
+      padding: 8px;
+margin: 10px;
+      border-radius: 20px;
+      border: 6px solid var(--black);
+      box-shadow: 0px 5px 17px 1px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+    }
+
+    .newList:active {
+      transform: scale(0.98);
     }
 
     p {

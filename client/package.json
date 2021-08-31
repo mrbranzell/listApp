@@ -17,7 +17,7 @@
     "build": "cross-env NODE_ENV=production webpack",
     "dev": "webpack serve --content-base public",
     "lint": "prettier --check 'src/**/*.{html,js,svelte}'",
-        "lint:fix": "prettier --write 'src/**/*.{html,js,svelte}'"
+    "lint:fix": "prettier --write 'src/**/*.{html,js,svelte}'"
   },
   "dependencies": {
     "axios": "^0.21.1"
