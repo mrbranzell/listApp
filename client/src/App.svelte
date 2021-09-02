@@ -2,8 +2,6 @@
 <script>
     import axios from 'axios';
     import { onMount } from 'svelte';
-    //import SettingsIcon from './/components/imageComponents/settingsIcon.svelte';
-    //import X from './/components/imageComponents/X.svelte';
 
     let userLaguage = localStorage.getItem('userLaguage') ? localStorage.getItem('userLaguage') : 'swe';
 
