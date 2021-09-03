@@ -14,7 +14,7 @@
     $: console.log(userLaguage);
 
     // 🗣🗣🗣🗣🗣 all the laguage switching stuff
-    let UIlang =
+    $: UIlang =
         userLaguage === 'swe'
             ? {
                   id: 0,
@@ -22,12 +22,12 @@
                   lista: { source: 'Lista', target: 'Lista' },
                   tranTraned: { source: 'Översätt', target: 'Traduzir' },
               }
-            : {
+            : userLaguage === 'swe' ? {
                   id: 1,
                   lang: { source: 'Português', target: 'Svenska', abbreviated: `pt-sv` },
                   lista: { source: 'Lista', target: 'Lista' },
                   tranTraned: { source: 'Traduzir', target: 'Översätt' },
-              };
+              } : {};
 
     let input;
     let items = [];
