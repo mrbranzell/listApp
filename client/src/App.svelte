@@ -22,12 +22,14 @@
                   lista: { source: 'Lista', target: 'Lista' },
                   tranTraned: { source: 'Översätt', target: 'Traduzir' },
               }
-            : userLaguage === 'por' ? {
+            : userLaguage === 'por'
+            ? {
                   id: 1,
                   lang: { source: 'Português', target: 'Svenska', abbreviated: `pt-sv` },
                   lista: { source: 'Lista', target: 'Lista' },
                   tranTraned: { source: 'Traduzir', target: 'Översätt' },
-              } : {};
+              }
+            : {};
 
     let input;
     let items = [];
@@ -122,7 +124,13 @@
         </h1>
         <div class="rows">
             <div class="inputWrapper itemWrapper">
-                <input class="input" type="text" placeholder="Item" bind:value={input} />
+                <input
+                    class="input"
+                    type="text"
+                    placeholder="Item"
+                    on:keydown={(e) => e.key === 'Enter' && addItem}
+                    bind:value={input}
+                />
                 <button class="btn" on:click={addItem} {disabled}>save</button>
             </div>
             {#each items as item (item._id)}
