@@ -22,7 +22,7 @@
                   lista: { source: 'Lista', target: 'Lista' },
                   tranTraned: { source: 'Översätt', target: 'Traduzir' },
               }
-            : userLaguage === 'swe' ? {
+            : userLaguage === 'por' ? {
                   id: 1,
                   lang: { source: 'Português', target: 'Svenska', abbreviated: `pt-sv` },
                   lista: { source: 'Lista', target: 'Lista' },
