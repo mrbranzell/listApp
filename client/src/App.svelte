@@ -92,7 +92,7 @@
 <div class="app">
     <aside class={`${openSettings && 'goneSettings'}  settings`}>
         <div class="language-selector">
-            <select on:blur={handleLaguageChange} value={userLaguage}>
+            <select on:change={handleLaguageChange} value={userLaguage}>
                 <option value="swe">Svenska ⇾ Português</option>
                 <option value="por">Português ⇾ Svenska</option>
             </select>
