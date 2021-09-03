@@ -128,7 +128,11 @@
                     class="input"
                     type="text"
                     placeholder="Item"
-                    on:keydown={(e) => e.key === 'Enter' && addItem}
+                    on:keydown={(e) => {
+                        if (e.key === 'Enter') {
+                            addItem();
+                        }
+                    }}
                     bind:value={input}
                 />
                 <button class="btn" on:click={addItem} {disabled}>save</button>
